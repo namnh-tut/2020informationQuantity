@@ -55,13 +55,21 @@ public class Frequencer implements FrequencerInterface{
         //The return value of "int suffixCompare" is as follows. 
         // if suffix_i > suffix_j, it returns 1   
         // if suffix_i < suffix_j, it returns -1  
-        // if suffix_i = suffix_j, it returns 0;   
-        if (i == mySpace.length && j == mySpace.length) return 0;
+        // if suffix_i = suffix_j, it returns 0;   	    
+        while (i < mySpace.length && j < mySpace.length) {
+            byte suffix_i = mySpace[i];
+            byte suffix_j = mySpace[j];
+            if (suffix_i == suffix_j) {
+                i++;
+                j++;
+            } else {
+                if (suffix_i > suffix_j) return 1;
+                else if (suffix_i < suffix_j) return -1;
+            }
+        }
+        if (i == j) return 0;
         else if (i == mySpace.length) return -1;
-	    else if (j == mySpace.length) return 1;
-	    else if (mySpace[i] > mySpace[j]) return 1;
-	    else if (mySpace[i] < mySpace[j]) return -1;
-	    else return suffixCompare(i+1, j+1);
+        else return 1;
     }
 
     private void quick_sort(int left, int right) {
