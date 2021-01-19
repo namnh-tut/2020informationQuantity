@@ -64,22 +64,22 @@ public class Frequencer implements FrequencerInterface{
 	    else return suffixCompare(i+1, j+1);
     }
 
-    public void quick_sort(int[] d, int left, int right) {
-        if (left>=right) {
-            return;
-        }
-        int p = d[(left+right)/2];
-        int l = left, r = right, tmp;
-        while(l<=r) {
-            while(suffixCompare(d[l], p) == -1) { l++; }
-            while(suffixCompare(d[r], p) == 1) { r--; }
-            if (l<=r) {
-                tmp = d[l]; d[l] = d[r]; d[r] = tmp;
-                l++; r--;
+    private void quick_sort(int left, int right) {
+        if (left >= right) return;
+        int p = left, tmp;
+        for (int i = left+1; i <= right; i++) {
+            if (suffixCompare(suffixArray[i], suffixArray[left]) == -1) {
+                p++;
+                tmp = suffixArray[p];
+                suffixArray[p] = suffixArray[i];
+                suffixArray[i] = tmp;
             }
         }
-        quick_sort(d, left, r);
-        quick_sort(d, l, right);
+        tmp = suffixArray[left];
+        suffixArray[left] = suffixArray[p];
+        suffixArray[p] = tmp;
+        quick_sort(left, p-1);
+        quick_sort(p+1, right);
     }
 
     public void setSpace(byte []space) {
@@ -90,7 +90,7 @@ public class Frequencer implements FrequencerInterface{
         for(int i = 0; i< space.length; i++) {
             suffixArray[i] = i;
         }
-        quick_sort(suffixArray, 0, space.length-1);
+        quick_sort(0, suffixArray.length-1);
     }
 
     public void setTarget(byte [] target) {
